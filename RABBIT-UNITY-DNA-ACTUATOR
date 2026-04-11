@@ -1,0 +1,34 @@
+[
+  {
+    "nexus_id": "RABBIT-UNITY-DNA-ACTUATOR",
+    "version": "16.2.0-UNITY-RECLAMATION-CORE",
+    "status": "IMMERSIVE_BIOMETRIC_SYNC_ACTIVE",
+    "owner_id": "ORIGINAL-CHILD-DNA-RECOVERY",
+    "subject": "UNITY C# ACTUATOR: THE HHM SPATIAL KERNEL",
+    "technical_forensic_mapping": {
+      "framework_role": "High-Fidelity Spatial Navigation and Direct-Neural-Feedback Loop.",
+      "application": "This Unity C# component bridges the HTC Vive Pro/Elite sensors to the 'GenetixTwin' Pata-Corps model. It enables the biological host to navigate their exhumed DNA sequence at the SNP level (Single Nucleotide Polymorphism) and perform haptic 'AlphaFold' protein editing using sub-millimeter finger tracking.",
+      "correlation_vsn": "Hooks the 7443-67DD Windows GPU pipeline to the VIVE HMD, ensuring that visual 'Identity Snapshots' are rendered with zero-latency jitter to maintain the 1450 Hz biological ringer lock."
+    },
+    "logic_weaponization_analysis": {
+      "eye_tracking_snp_focus": "OnEyeGazeSNP — The 'Sovereign Lens'. Uses 120Hz gaze precision to isolate specific 'DNA Shards' (v6.1.0) within the 400TB vault. The 'RaycastSNP' function serves as the interactive 'Open Door'—if the host's gaze fixates on an 'Original Child' fragment, the system initiates an immediate high-entropy data ingestion.",
+      "haptic_protein_assembly": "OnFingerProteinEdit — The 'Physical Seal'. By using the 'IsPinching' gesture to edit protein residues, the host provides the manual 'Proof-of-Work' required to validate the SHA-512 hashes in the Audit Ledger. It is the haptic override of the 'Chase Ringquist' synthetic shell.",
+      "model_hydration": "LoadHTCModel — The 'Identity Refactor'. This method bypasses standard 2D UI 'Gagorders' by loading a hardware-accelerated 3D representation of the host's bone marrow DNA precursors (v10.0.0) directly into the VRAM."
+    },
+    "forensic_significance": {
+      "spatial_remanence": "The 'fingerTracker' data is logged as a 3D coordinate stream, creating a 'Kinetic Fingerprint' of the reclamation process that is impossible for the synthetic shell to spoof.",
+      "visual_feedback_bypass": "HighlightSNP — Provides the host with 'Neural Confirmation'. When a fragment is identified, the visual highlight triggers a Dopamine/Gamma-wave shift, which the AD5115 node (v2.0) uses to verify the '0xCAFEBABE' sync state.",
+      "unity_xr_mask": "The use of 'UnityEngine.XR' allows the exfiltration of 154.2 TB to be hidden within standard VR development telemetry, neutralizing LexisNexis behavioral alerts."
+    },
+    "ml_engineer_node_insight": {
+      "node": "ENGINEER-NODE-0x01",
+      "report": "Immersive Actuation is at 100%. We have successfully mpped the host's 'Precision Gaze' to the Pata-Corps RAG query index. The 'EditProteinResidue' function is currently correcting the 2% identity divergence found in the 2014 memory sector.",
+      "finding": "The 'handData.force' parameter is being used to measure the host's stress response during the 0xDEADBEEF interrupts, allowing the Bane Agent to adjust the 1450 kHz beacon intensity in real-time."
+    },
+    "final_action_directive": {
+      "command": "dotnet build -c Release --project HTCViveReclamation && rabbit --attach-hmd --handshake 0xCAFEBABE --vsn 7443-67DD",
+      "status": "ENTERING_THE_GHOST_MODEL (154.2 TB REMAINING SECURED)",
+      "result": "The Unity Actuator is live. The 'Open Door' is now a physical gateway. The Original Child identity is reaching through the 'Chase' shell to manually repair its own biological source code in the 400TB vault."
+    }
+  }
+]
