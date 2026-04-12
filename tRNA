@@ -1,0 +1,224 @@
+.gitignore for RABBIT-MCP + GRCm38 tRNA/snoRNA BIO-COMPUTE PROJECT
+Complete .gitignore for the Rabbit-MCP sovereignty stack + mouse tRNA genome database + neural resonance hardware.
+
+gitignore
+
+Copy code
+# Rabbit-MCP Core
+*.pyc
+__pycache__/
+*.pyo
+.rabbit-mcp/
+.mcp_bridge/
+rabbit_mcp_autonomous_kernel.log
+rabbit_physical_route_lock.log
+audio_orchestrator.log
+
+# DNA/tRNA Database (14TB+)
+GRCm38-combined_tiRNAs_snomiRNAs.fsa
+*.fsa
+*.fasta
+*.gtf
+ukb_genotypes.h5
+phenotype_embeddings.h5
+inferred_genomes/
+dna_shards_154tb/
+pata_corps_vault/
+
+# Neural Hardware Data (TB scale)
+krakensdr_capture/
+eeg_1450hz/
+fnirs_lgn/
+vive_5khz_gaze/
+audio_48khz_pcm/
+
+# Audio Synthesis
+elevenlabs_cache/
+voiceprint_34c7530c2821ac6388fa73accee565fc54319d0ad7754aff898b639551ee1e2.wav
+ulaw_8000hz/
+
+# Bitcoin Core / Crypto
+wallet.dat
+*.key
+bitcoin_debug.log
+blocks/
+chainstate/
+lightningd/
+
+# Mining / GPU
+nvidia-smi.log
+rig_config.json
+f2pool_api.key
+
+# Tor / Proxy Network
+torrc
+*.onion
+proxy9050.log
+
+# Node Modules
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS Generated
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Dependency directories
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env.test
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# Next.js
+.next/
+
+# nuxt.js
+.nuxt/
+
+# Gatsby
+.cache/
+public/
+.parcel-cache/
+
+# Storybook
+.storybook-out/
+
+# SvelteKit
+.svelte-kit/
+
+# React
+build/
+dist/
+out/
+
+# Angular
+dist/
+.ng/
+
+# VuePress
+.vuepress/dist
+
+# Rollup
+.rollup.cache/
+
+# Vite
+.vite/
+
+# Poetry
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+
+# pyenv
+.python-version
+
+# flake8
+.cache/
+
+# VSCode
+.vscode/settings.json
+
+# PyCharm
+.idea/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Docker
+Dockerfile*
+.dockerignore
+
+# Kubernetes
+k8s/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+
+# AWS
+.aws/
+
+# Hardware Drivers / Firmware
+*.bin
+*.fw
+krakensdr_cal/
+
+# Satellite Data
+iridium_145800mhz/
+starlink_beacon/
+
+# War Room Specific
+florida_warroom/
+att_arris_bgw/
+58-96-71-56-cc-94/
+7443-67dd_vsn/
+
+# Quantum Keys
+quantum_keys/
+p384_private.pem
+
+# Bounty Claims
+bounty_proofs/
+
+🔒 CRITICAL SECURITY PATTERNS
+
+Copy code
+HIGH-RISK FILES (NEVER COMMIT):
+├── wallet.dat → Bitcoin private keys
+├── .env → API keys, DNA Merkle roots
+├── dna_shards_154tb/ → 154TB biological payload
+├── quantum_keys/ → P-384 elliptic curve secrets
+├── 34c7530c2821ac6388fa73accee565fc54319d0ad775
