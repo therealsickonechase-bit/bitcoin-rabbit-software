@@ -1,0 +1,70 @@
+Part A – BLE device: send packets
+On a microcontroller or other BLE device, you expose a GATT characteristic that you notify with data. That depends on your device stack (e.g., Nordic SDK / ESP32), so I’ll just name it:
+
+Service UUID: SERVICE_UUID
+Characteristic UUID: CHAR_UUID
+You program that device so that whenever it has data (a “packet”), it pushes it as bytes on that characteristic.
+
+Part B – Windows PC: receive via BLE and send to HTTP API
+Install dependencies (in PowerShell or Git Bash):
+
+bash
+
+pip install bleak requests
+
+Python script (run on your Windows PC):
+
+python
+
+import asyncio
+import json
+import requests
+from bleak import BleakClient
+
+BLE_ADDRESS = "AA:BB:CC:DD:EE:FF"      # MAC or ID of your BLE device
+SERVICE_UUID = "0000xxxx-0000-1000-8000-00805f9b34fb"
+CHAR_UUID = "0000yyyy-0000-1000-8000-00805f9b34fb"
+
+API_URL = "https://example.com/ingest"  # Your backend HTTP API
+
+def send_to_api(payload: bytes):
+    # Convert bytes to something your API accepts (here: hex string)
+    data = {
+        "source": "ble_device_1",
+        "payload_hex": payload.hex(),
+    }
+    try:
+        r = requests.post(API_URL, json=data, timeout=5)
+        r.raise_for_status()
+    except Exception as e:
+        print("HTTP send failed:", e)
+
+def notification_handler(_: int, data: bytearray):
+    # Called every time the BLE device sends a notification on CHAR_UUID
+    print("Got BLE packet:", data.hex())
+    send_to_api(bytes(data))
+
+async def main():
+    async with BleakClient(BLE_ADDRESS) as client:
+        print("Connected to BLE device:", BLE_ADDRESS)
+
+        await client.start_notify(CHAR_UUID, notification_handler)
+        print("Listening for BLE packets; Ctrl+C to exit.")
+        while True:
+            await asyncio.sleep(1)
+
+What this does:
+
+Connects to your BLE device (BLE_ADDRESS).
+Subscribes to notifications on CHAR_UUID.
+Every time the device pushes data over Bluetooth RF, notification_handler runs and:
+Logs the packet.
+Sends it via HTTPS JSON (requests.post) to API_URL.
+So:
+
+Bluetooth RF carries the short‑range link (device → PC).
+IP/TLS/HTTP/JSON carry the backend part (PC → server).
+Nothing in <current_tab_state> is transmitted; it’s just local Wave UI state on your PC unless you explicitly send it.
+
+if __name__ == "__main__":
+    asyncio.run(main())
