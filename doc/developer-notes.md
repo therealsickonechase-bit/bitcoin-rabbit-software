@@ -164,7 +164,7 @@ To run clang-tidy on Ubuntu/Debian, install the dependencies:
 apt install clang-tidy clang
 ```
 
-Configure with clang as the compiler:
+Configure with clang as the compiler with the below command that should create a `compile_commands.json` file within the build directory:
 
 ```sh
 cmake -B build -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
@@ -172,11 +172,18 @@ cmake -B build -DCMAKE_C_COMPILER=clang -DCMAKE_CXX_COMPILER=clang++ -DCMAKE_EXP
 
 The output is denoised of errors from external dependencies.
 
-To run clang-tidy on all source files:
+To run clang-tidy on all source files using the checks mentioned in the `./src/.clang-tidy` file:
 
 ```sh
 ( cd ./src/ && run-clang-tidy -p ../build -j $(nproc) )
 ```
+
+To run clang-tidy on one file:
+```sh
+( cd ./src/ && run-clang-tidy -p ../build -j $(nproc) ./path/to/single_file.cpp )
+```
+
+Optionally, append the `run-clang-tidy` command with the `-quiet` option to suppress printing of statistics and ignored warnings that can clutter the output. The `-fix` option also comes in handy to apply the fixes suggested by the tool but need to ensure that unrelated changes in the file are not committed.
 
 To run clang-tidy on the changed source lines:
 
@@ -225,16 +232,15 @@ To describe a class, use the same construct above the class definition:
 class CAlert
 ```
 
-To describe a member or variable use:
+To describe a member or variable, place the comment on the line(s) before it, using `/**` and `*/`, `//!`, or `///`:
 ```c++
 //! Description before the member
 int var;
 ```
 
-or
-```c++
-int var; //!< Description after the member
-```
+Avoid trailing (inline) member comments like `int var; //!< Description after the member`.
+
+  - *Rationale*: Forgetting the `<` silently breaks Doxygen output.
 
 Also OK:
 ```c++
@@ -458,7 +464,8 @@ LLVM_PROFILE_FILE="$(pwd)/build/raw_profile_data/%m_%p.profraw" ctest --test-dir
 LLVM_PROFILE_FILE="$(pwd)/build/raw_profile_data/%m_%p.profraw" build/test/functional/test_runner.py # Append "-j N" here for N parallel jobs
 
 # Merge all the raw profile data into a single file
-find build/raw_profile_data -name "*.profraw" | xargs llvm-profdata merge -o build/coverage.profdata
+find build/raw_profile_data -name "*.profraw" > build/raw_profile_data_files.txt
+llvm-profdata merge -f build/raw_profile_data_files.txt -o build/coverage.profdata
 ```
 
 > **Note:** The "counter mismatch" warning can be safely ignored, though it can be resolved by updating to Clang 19.
@@ -797,7 +804,7 @@ Common misconceptions are clarified in those sections:
 - Do not compare an iterator from one data structure with an iterator of
   another data structure (even if of the same type).
 
-  - *Rationale*: Behavior is undefined. In C++ parlor this means "may reformat
+  - *Rationale*: Behavior is undefined. In C++ parlance this means "may reformat
     the universe", in practice this has resulted in at least one hard-to-debug crash bug.
 
 - Watch out for out-of-bounds vector access. `&vch[vch.size()]` is illegal,
@@ -1418,9 +1425,9 @@ communication:
   using TipChangedFn = std::function<void(int block_height, int64_t block_time)>;
   virtual std::unique_ptr<interfaces::Handler> handleTipChanged(TipChangedFn fn) = 0;
 
-  // Bad: returns boost connection specific to local process
+  // Bad: returns btcsignals connection specific to local process
   using TipChangedFn = std::function<void(int block_height, int64_t block_time)>;
-  virtual boost::signals2::scoped_connection connectTipChanged(TipChangedFn fn) = 0;
+  virtual btcsignals::scoped_connection connectTipChanged(TipChangedFn fn) = 0;
   ```
 
 - Interface methods should not be overloaded.

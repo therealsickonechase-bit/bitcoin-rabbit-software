@@ -24,6 +24,7 @@ $(package)_patches += fix-gcc16-sfinae-qregularexpression.patch
 $(package)_patches += fix-gcc16-sfinae-qchar.patch
 $(package)_patches += fix-gcc16-sfinae-qbitarray.patch
 $(package)_patches += fix-gcc16-sfinae-qanystringview.patch
+$(package)_patches += fix-macos26-qyield.patch
 $(package)_patches += fix-qbytearray-include.patch
 
 $(package)_qttranslations_file_name=$(qt_details_qttranslations_file_name)
@@ -156,6 +157,7 @@ ifneq ($(LTO),)
 $(package)_config_opts_linux += -ltcg
 endif
 $(package)_config_opts_freebsd := $$($(package)_config_opts_linux)
+$(package)_config_opts_freebsd += -no-feature-inotify
 
 $(package)_config_opts_mingw32 := -no-dbus
 $(package)_config_opts_mingw32 += -no-feature-freetype
@@ -281,6 +283,7 @@ define $(package)_preprocess_cmds
   patch -p1 -i $($(package)_patch_dir)/fix-gcc16-sfinae-qchar.patch && \
   patch -p1 -i $($(package)_patch_dir)/fix-gcc16-sfinae-qbitarray.patch && \
   patch -p1 -i $($(package)_patch_dir)/fix-gcc16-sfinae-qanystringview.patch && \
+  patch -p1 -i $($(package)_patch_dir)/fix-macos26-qyield.patch && \
   patch -p1 -i $($(package)_patch_dir)/fix-qbytearray-include.patch
 endef
 ifeq ($(host),$(build))
