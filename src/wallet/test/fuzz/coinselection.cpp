@@ -50,8 +50,7 @@ static void GroupCoins(FuzzedDataProvider& fuzzed_data_provider, const std::vect
 static CAmount CreateCoins(FuzzedDataProvider& fuzzed_data_provider, std::vector<COutput>& utxo_pool, CoinSelectionParams& coin_params, int& next_locktime)
 {
     CAmount total_balance{0};
-    LIMITED_WHILE(fuzzed_data_provider.ConsumeBool(), 10000)
-    {
+    LIMITED_WHILE (fuzzed_data_provider.ConsumeBool(), 10000) {
         const int n_input{fuzzed_data_provider.ConsumeIntegralInRange<int>(0, 10)};
         const int n_input_bytes{fuzzed_data_provider.ConsumeIntegralInRange<int>(41, 10000)};
         const CAmount amount{fuzzed_data_provider.ConsumeIntegralInRange<CAmount>(1, MAX_MONEY)};
@@ -102,8 +101,7 @@ FUZZ_TARGET(coin_grinder)
     CAmount total_balance{0};
     CAmount max_spendable{0};
     int next_locktime{0};
-    LIMITED_WHILE(fuzzed_data_provider.ConsumeBool(), 10000)
-    {
+    LIMITED_WHILE (fuzzed_data_provider.ConsumeBool(), 10000) {
         const int n_input{fuzzed_data_provider.ConsumeIntegralInRange<int>(0, 10)};
         const int n_input_bytes{fuzzed_data_provider.ConsumeIntegralInRange<int>(41, 10000)};
         const CAmount amount{fuzzed_data_provider.ConsumeIntegralInRange<CAmount>(1, MAX_MONEY)};
@@ -152,8 +150,7 @@ FUZZ_TARGET(coin_grinder_is_optimal)
     int next_locktime{0};
     static constexpr unsigned max_output_groups{16};
     std::vector<OutputGroup> group_pos;
-    LIMITED_WHILE(fuzzed_data_provider.ConsumeBool(), max_output_groups)
-    {
+    LIMITED_WHILE (fuzzed_data_provider.ConsumeBool(), max_output_groups) {
         // With maximum m_effective_feerate and n_input_bytes = 1'000'000, input_fee <= MAX_MONEY.
         const int n_input_bytes{fuzzed_data_provider.ConsumeIntegralInRange<int>(1, 1'000'000)};
         // Only make UTXOs with positive effective value
@@ -250,8 +247,7 @@ FUZZ_TARGET(bnb_finds_min_waste)
     // Choose 1–16 of 16 provides ample fuzzing space.
     static constexpr unsigned max_output_groups{16};
     std::vector<OutputGroup> group_pos;
-    LIMITED_WHILE(fuzzed_data_provider.ConsumeBool(), max_output_groups)
-    {
+    LIMITED_WHILE (fuzzed_data_provider.ConsumeBool(), max_output_groups) {
         // With maximum m_effective_feerate 10'000 s/vB and n_input_bytes = 20'000 B, input_fee <= MAX_MONEY.
         const int n_input_bytes{fuzzed_data_provider.ConsumeIntegralInRange<int>(1, 20'000)};
         const CAmount input_fee = coin_params.m_effective_feerate.GetFee(n_input_bytes);
@@ -275,7 +271,7 @@ FUZZ_TARGET(bnb_finds_min_waste)
 
     // Brute force optimal solution (lowest waste, but cannot be superset of another solution)
     std::vector<uint32_t> solutions;
-    int best_waste{std::numeric_limits<int>::max()};
+    CAmount best_waste{std::numeric_limits<int64_t>::max()};
     int best_weight{std::numeric_limits<int>::max()};
     for (uint32_t pattern = 1; (pattern >> num_groups) == 0; ++pattern) {
         // BnB does not permit adding more inputs to a solution, i.e. a superset of a solution cannot ever be a solution.

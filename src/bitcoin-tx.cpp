@@ -8,6 +8,7 @@
 #include <clientversion.h>
 #include <coins.h>
 #include <common/args.h>
+#include <common/license_info.h>
 #include <common/system.h>
 #include <compat/compat.h>
 #include <consensus/amount.h>
@@ -555,7 +556,7 @@ static CAmount AmountFromValue(const UniValue& value)
 {
     if (!value.isNum() && !value.isStr())
         throw std::runtime_error("Amount is not a number or string");
-    CAmount amount;
+    int64_t amount;
     if (!ParseFixedPoint(value.getValStr(), 8, &amount))
         throw std::runtime_error("Invalid amount");
     if (!MoneyRange(amount))
@@ -585,8 +586,7 @@ static void MutateTxSign(CMutableTransaction& tx, const std::string& flagStr)
     // starts as a clone of the raw tx:
     CMutableTransaction mergedTx{tx};
     const CMutableTransaction txv{tx};
-    CCoinsView viewDummy;
-    CCoinsViewCache view(&viewDummy);
+    CCoinsViewCache view{&CoinsViewEmpty::Get()};
 
     if (!registers.contains("privatekeys"))
         throw std::runtime_error("privatekeys register variable must be set.");
@@ -681,7 +681,7 @@ static void MutateTxSign(CMutableTransaction& tx, const std::string& flagStr)
         SignatureData sigdata = DataFromTransaction(mergedTx, i, coin.out);
         // Only sign SIGHASH_SINGLE if there's a corresponding output:
         if (!fHashSingle || (i < mergedTx.vout.size()))
-            ProduceSignature(keystore, MutableTransactionSignatureCreator(mergedTx, i, amount, nHashType), prevPubKey, sigdata);
+            ProduceSignature(keystore, MutableTransactionSignatureCreator(mergedTx, i, amount, {.sighash_type = nHashType}), prevPubKey, sigdata);
 
         if (amount == MAX_MONEY && !sigdata.scriptWitness.IsNull()) {
             throw std::runtime_error(strprintf("Missing amount for CTxOut with scriptPubKey=%s", HexStr(prevPubKey)));

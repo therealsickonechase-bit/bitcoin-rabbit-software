@@ -8,14 +8,13 @@
 #include <tinyformat.h>
 
 #include <cstdio>
+// The `util/fs.h` header is designed to be a drop-in replacement for `filesystem`.
 #include <filesystem> // IWYU pragma: export
 #include <functional>
 #include <iomanip>
 #include <ios>
-#include <ostream>
 #include <string>
 #include <string_view>
-#include <system_error>
 #include <type_traits>
 #include <utility>
 

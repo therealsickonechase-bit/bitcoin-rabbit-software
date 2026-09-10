@@ -4,10 +4,12 @@
 
 #include <bench/bench.h>
 #include <consensus/consensus.h>
+#include <crypto/hex_base.h>
 #include <random.h>
-#include <span.h>
-#include <util/strencodings.h>
 
+#include <cstddef>
+#include <span>
+#include <string>
 #include <vector>
 
 static void HexStrBench(benchmark::Bench& bench)

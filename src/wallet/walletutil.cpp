@@ -7,7 +7,7 @@
 #include <chainparams.h>
 #include <common/args.h>
 #include <key_io.h>
-#include <logging.h>
+#include <util/log.h>
 
 namespace wallet {
 fs::path GetWalletDir()
@@ -83,6 +83,18 @@ WalletDescriptor GenerateWalletDescriptor(const CExtPubKey& master_key, const Ou
     std::vector<std::unique_ptr<Descriptor>> desc = Parse(desc_str, keys, error, false);
     WalletDescriptor w_desc(std::move(desc.at(0)), creation_time, 0, 0, 0);
     return w_desc;
+}
+
+void WalletDescriptor::UpdateFrom(const WalletDescriptor& other)
+{
+    if (descriptor->ToCanonicalString() != other.descriptor->ToCanonicalString()) {
+        return;
+    }
+    range_start = other.range_start;
+    next_index = other.next_index;
+    range_end = other.range_end;
+    creation_time = other.creation_time;
+    cache = other.cache;
 }
 
 } // namespace wallet

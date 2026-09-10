@@ -5,17 +5,17 @@
 #ifndef BITCOIN_UTIL_OVERFLOW_H
 #define BITCOIN_UTIL_OVERFLOW_H
 
-#include <cassert>
+#include <util/check.h>
+
 #include <climits>
 #include <concepts>
 #include <limits>
 #include <optional>
 #include <type_traits>
 
-template <class T>
+template <std::integral T>
 [[nodiscard]] bool AdditionOverflow(const T i, const T j) noexcept
 {
-    static_assert(std::is_integral_v<T>, "Integral required.");
     if constexpr (std::numeric_limits<T>::is_signed) {
         return (i > 0 && j > std::numeric_limits<T>::max() - i) ||
                (i < 0 && j < std::numeric_limits<T>::min() - i);
@@ -40,7 +40,7 @@ template <std::unsigned_integral T, std::unsigned_integral U>
     return true;
 }
 
-template <class T>
+template <std::integral T>
 [[nodiscard]] T SaturatingAdd(const T i, const T j) noexcept
 {
     if constexpr (std::numeric_limits<T>::is_signed) {

@@ -56,10 +56,12 @@ def create_deterministic_address_bcrt1_p2tr_op_true(explicit_internal_key=None):
 
 
 def byte_to_base58(b, version):
-    result = ''
-    b = bytes([version]) + b  # prepend version
+    if isinstance(version, int):
+        version = bytes([version])
+    b = version + b # prepend version
     b += hash256(b)[:4]       # append checksum
     value = int.from_bytes(b, 'big')
+    result = ''
     while value > 0:
         result = b58chars[value % 58] + result
         value //= 58
@@ -100,12 +102,12 @@ def base58_to_byte(s):
 
 
 def keyhash_to_p2pkh(hash, main=False):
-    assert len(hash) == 20
+    assert_equal(len(hash), 20)
     version = 0 if main else 111
     return byte_to_base58(hash, version)
 
 def scripthash_to_p2sh(hash, main=False):
-    assert len(hash) == 20
+    assert_equal(len(hash), 20)
     version = 5 if main else 196
     return byte_to_base58(hash, version)
 
@@ -144,7 +146,7 @@ def script_to_p2sh_p2wsh(script, main=False):
     return script_to_p2sh(p2shscript, main)
 
 def output_key_to_p2tr(key, main=False):
-    assert len(key) == 32
+    assert_equal(len(key), 32)
     return program_to_witness(1, key, main)
 
 def p2a(main=False):
